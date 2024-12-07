@@ -345,20 +345,6 @@ class Console:
         else:
             return False
 
-# Create a clone of the guild
-async def make_clone():
-    id = 1314214365351903322
-    guild = None
-    for g in client.guilds:
-        if g.id == id:
-            guild = g
-
-    new = await client.create_guild("Alizey's Cracks")
-    print("created guild clone")
-    for channel in guild.channels:
-        await client.create_channel(new, channel.name, type=discord.ChannelType.text)
-        print(f"created {channel.name}")
-
 
 @client.event
 async def on_ready():
