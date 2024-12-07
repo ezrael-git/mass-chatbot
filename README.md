@@ -18,4 +18,5 @@ cd mass-chatbot/src
 py main.py
 ```
 
-Cheers.
+## Env variables
+Create a new file `.env` with the variables `AUTH` (your Discord token) and `GROQ_AUTH` (your Groq API key).
