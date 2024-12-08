@@ -309,12 +309,6 @@ class Chatbot(MemoryHandlerBase):
         resp = self.chat(content)
         resp = self.parse_response(resp)
 
-        ### for debugging
-        if msg.channel.id == 1294309997194383442:
-            await msg.channel.send(resp)
-            return
-        ###
-
         perm = Console.ask(f"{colors.HEADER}msg: {colors.ENDC}{colors.MSG}{msg.content}{colors.ENDC}\n{colors.HEADER}response: {colors.ENDC}{colors.RESP}{resp}{colors.ENDC}\nsend?")
         if perm:
             await msg.channel.send(resp)
@@ -322,6 +316,17 @@ class Chatbot(MemoryHandlerBase):
         else:
             print("not sent.")
 
+    async def handle_message(message: discord.Message, personality: Personality = Personalities.Alizey):
+        """ Handler for incoming messages.
+        Abstracts away the message handling part.
+        """
+        chatbot = Chatbot(message.author, personality)
+
+        if client.user.mentioned_in(message):
+            if ">>>show memory" in message.content:
+                Console.log(chatbot._get_memory())
+            else:
+                await chatbot.respond(message)
 
 
 class Console:
@@ -356,18 +361,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    """ All chatbot instance handling happens here.
-    """
-    chatbot = Chatbot(message.author)
     if Console.STREAM:
         Console.log(f"{colors.OKBLUE}{message.guild.name}/{message.channel.name}/{message.author.display_name} : {message.content} {colors.ENDC}")
 
-
-    if client.user.mentioned_in(message):
-        if "show memory" in message.content:
-            Console.log(chatbot._get_memory())
-        else:
-            await chatbot.respond(message)
+    await Chatbot.handle_message(message)
 
 
 

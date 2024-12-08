@@ -25,7 +25,7 @@ py main.py
 Create a new file `.env` with the variables `AUTH` (your Discord token) and `GROQ_AUTH` (your Groq API key).
 
 ## Editing personality and behaviour
-You can edit the chatbot's behaviour by going into the `on_message` method where it initializes the `Chatbot` object.
+You can edit the chatbot's behaviour by going into the `Chatbot.handle_message` method where it initializes the `Chatbot` object.
 In the second arg you can either pass one of the existing `Personality`s (see `Personalities` class) or create one of your own with a custom prompt. E.g.
 ```py
 chatbot = Chatbot(message.author, Personality("Your name is ezrael-git and your hobbies are xyz."))
